@@ -6,7 +6,35 @@ $ques->ques_show($cat);
 $_SESSION['cat']=$cat;
 //echo "<pre>";
 //print_r($ques->ques);
+
 ?>
+
+
+<script> 
+
+         var v=<?php echo $_SESSION['theme']?>;     //IAM SO SMART
+		 
+          if(v=='1')
+			  
+			  {
+				  
+				  
+				  document.body.style.backgroundImage='url("light_theme.jpg")';
+				  
+				  
+			  }
+            
+    </script> 
+
+
+
+
+
+
+
+
+
+
 
 <!DOCTYPE html>
 <html>

@@ -16,6 +16,7 @@ class users{
 	public $contest;
 	//public $cdata;
 	public $answer;
+	public $quiz_info;
 	
 	public function __construct()
 	{
@@ -50,6 +51,7 @@ class users{
 	  {
 		  $_SESSION['email']=$email;
 	      $_SESSION['name']=$name;
+		  
 		  //echo $_SESSION['name'];
 		  return true;
 	  }
@@ -61,6 +63,18 @@ class users{
 	  
 	  
 	}
+	
+	
+	
+	public function feed($data)
+	{ 
+	   $this->conn->query($data);
+		return true;
+	  
+	  
+	}
+	
+	
 	public function cat_show()
 	{
 		$query=$this->conn->query("select * from category");
@@ -104,10 +118,12 @@ class users{
 		
 	}
 	
-	public function answer($data)
+	public function answer($data)   //for contest it is taking default wrong answers. its null value is being taken like 0th option!
 	{
 		
 	  //print_r($data);
+	  
+	  $_SESSION['no_quiz']=$_SESSION['no_quiz']+1;
 	  $ans=implode("",$data);
 	  $right=0;
 	  $wrong=0;
@@ -148,11 +164,83 @@ class users{
       $array['Wrong Answers']=$wrong;
 	  $array['per']=$per;
 	  
+	  echo $_SESSION['tot_per'] ." ";
+	  echo ($_SESSION['no_quiz']-1) ." ";
+	  echo $per ." ";
+	  echo $_SESSION['no_quiz'] ." ";
+	  $_SESSION['tot_per']=(($_SESSION['tot_per']*($_SESSION['no_quiz']-1))+$per)/$_SESSION['no_quiz'];
+	  
+	  //$newper=
+	  $email=$_SESSION['email'];// we have to put session values into variables..then only sql query
+	  $tot=$_SESSION['no_quiz'];
+	  $p= $_SESSION['tot_per'];
+	  
+	  //ONLY UPDATION IS ENOUGH..CANT INSERT EVERY TIME
+	  //see all spelling in query else it wont insert.   //here and is not working  (and avg_marks='$p')
+	  $q="update tot_performance set total_quizs='$tot'  where email='$email'";
+	  
+	  if($this->conn->query($q))
+	  {
+		echo "updated tot questions !";  
+	  }
+	  
+	  else{
+		  
+		  echo "NOT updated!";  
+		  
+	  }
+	  //updation success
+	  $q="update tot_performance set avg_marks='$p' where email='$email'";
+	  if($this->conn->query($q))
+	  {
+		echo "updated avg marks !";  
+	  }
+	  
+	  else{
+		  
+		  echo "NOT updated!";  
+		  
+	  }
+	  
+	  
+	  echo $tot ."new percent is"  ;
+	  echo $p;
+	  echo $email;
+	
+	  
+	  
+	  
+	  
+	  
+	  
+	  
 	  return $array;
 
 
 		
 	}
+	
+	
+	public function get_quiz_info($email)
+	{
+	  $query=$this->conn->query("select * from tot_performance where email='$email'");
+	  $row=$query->fetch_array(MYSQLI_ASSOC); //how on boolean ?? what function is this ?
+	  
+	  if($query->num_rows>0)
+	  {
+		 $this->quiz_info[]=$row;
+	  }
+	  
+	  print_r($this->quiz_info);
+	  return $this->quiz_info;
+	  
+	 
+		
+	}
+	
+	
+	
+	
 	
 	
 	public function correct_answer($data) //iam afraid everything is serial :)
@@ -194,7 +282,7 @@ class users{
 		 else
 		 
 		 {
-			 $ya= $data[$quest['id']]+1;
+			 $ya= $data[$quest['id']]+1;  //for contest..null value it is taking as 0 !!
 			$ra= $quest['ans']+1;
 			 $correct_array[$i]=nl2br("your answer ".$ya." is incorrect, the correct answer is: ".$ra."\n you scored +0");
 			 

@@ -1,5 +1,72 @@
 <?php
-include("class/users.php");
+
+session_start();
+
+class users{
+	
+	public $host="localhost";
+	public $username="root";
+	public $pass="";
+	public $db_name="new_quiz";
+	public $conn;
+	public $data;
+	public $cat;
+	public $ques;
+	public $cont;
+	public $time_alloted;
+	public $contest;
+	//public $cdata;
+	public $answer;
+	public $quiz_info;
+	
+	public function __construct()
+	{
+		$this->conn=new mysqli($this->host,$this->username,$this->pass,$this->db_name);
+		if($this->conn->connect_errno)//new
+		{  
+		   die("data base connection failed".$this->conn->connect_errno);
+		}                    //concatenate eh?
+		
+		
+		
+	}
+
+
+public function con_show($con_id)
+	{    //echo $con_id;
+	    
+		$query1=$this->conn->query("select * from create_contest where id='$con_id'");
+		$row1=$query1->fetch_array(MYSQLI_ASSOC);
+		$cat_id=$row1['cat_id'];
+		$no_of_ques=$row1['no_of_ques'];
+		$random=$row1['random'];
+		$time_alloted=$row1['time'];
+		//echo $time_alloted;
+		//print_r($row1);
+		
+		$i=$no_of_ques;
+		 
+		$query=$this->conn->query("select * from questions where cat_id='$cat_id'");
+	  while($i>0) //how on boolean ?? what function is this ?
+	  
+	 
+	  {
+		 $row=$query->fetch_array(MYSQLI_ASSOC);   //first i questions only
+		 $this->cont[]=$row;
+		 $i-=1;
+	  }
+	  return $this->cont;
+	  
+		
+	}
+	
+	
+}
+
+
+
+
+//include("class/users.php");
 $ques= new users;
 $con_id= $_POST['con_id'];
 $time= $_POST['time'];           //just posted it instead
@@ -11,6 +78,22 @@ $ques->con_show($con_id);
 
 //print_r($ques->cont);
 ?>
+
+<script> 
+
+         var v=<?php echo $_SESSION['theme']?>;     //IAM SO SMART
+		 
+          if(v=='1')
+			  
+			  {
+				  
+				  
+				  document.body.style.backgroundImage='url("light_theme.jpg")';
+				  
+				  
+			  }
+            
+    </script> 
 
 <!DOCTYPE html>
 <html>
@@ -87,7 +170,7 @@ function timeout()
   <br>
   <br>
   
-  <form id="form1" method="post" action="answer.php">
+  <form id="form1" method="post" action="con_answer.php">
 <?php
 
 $i=1;

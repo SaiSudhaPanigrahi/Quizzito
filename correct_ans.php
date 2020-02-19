@@ -2,6 +2,7 @@
 
 
 <?php
+error_reporting(E_ERROR | E_WARNING | E_PARSE);
 include("class/users.php");
 $ques= new users;
 //$ans= new users;
@@ -24,6 +25,22 @@ $ques->ques_show($cat);
 
 
 ?>
+
+<script> 
+
+         var v=<?php echo $_SESSION['theme']?>;     //IAM SO SMART
+		 
+          if(v=='1')
+			  
+			  {
+				  
+				  
+				  document.body.style.backgroundImage='url("light_theme.jpg")';
+				  
+				  
+			  }
+            
+    </script> 
 
 
 

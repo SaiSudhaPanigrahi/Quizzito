@@ -9,9 +9,12 @@ $admin_profile=new users;
 $admin_profile->users_profile($ad_email);// no need to save the returened values..we can directly use it uh?
 $admin_profile->contests();
 $admin_profile->cat_show();
+$admin_profile->student_performance();
 //print_r($admin_profile->data);
 //print_r($admin_profile->contest); 
 //print_r($admin_profile->cat);           //?
+
+//print_r($admin_profile->student_performance);
 
 echo $ad_name;
 
@@ -34,7 +37,7 @@ echo $ad_name;
   <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#home" class="hi">HOME</a></li>
     <li><a data-toggle="tab" href="#menu1" class="hi">PROFILE</a></li>
-    <li><a data-toggle="tab" href="#menu2" class="hi">Menu 2</a></li> <!--wts dis-->
+    <li><a data-toggle="tab" href="#menu2" class="hi">STUDENT PERFORMANCE</a></li> <!--wts dis-->
     <li style="float:right"><a data-toggle="tab" href="#menu3 " class="hi">LOGOUT</a></li>
   </ul>
 
@@ -212,8 +215,87 @@ echo $ad_name;
   
    
     </div>
+	
+	
+	
+	
+	
+	
+	
     <div id="menu2" class="tab-pane fade">
-      <h3>Menu 2</h3>
+     
+	 
+	  <table class="table" >
+    <thead>
+      <tr class="danger">
+        <th>NAME</th>
+        <th>EMAIL</th>
+		<th>TOTAL NUMBER OF QUIZES ATTENDED</th>
+		<th>AVERAGE MARKS</th>
+      </tr>
+    </thead>
+    <tbody>
+	<?php
+	foreach($admin_profile->student_performance as $prof)
+	{ ?>
+	
+	<tr class="danger">
+	  <td><?php echo $prof['name'];?></td>
+	  <td><?php echo $prof['email'];?></td>
+	  <td><?php echo $prof['total_quizs'];?></td>
+	  <td><?php echo $prof['avg_marks'] .'%';?></td>
+	  
+	  
+	  
+	  
+	  
+      </tr>
+
+    </tbody>
+	
+
+	
+	
+	
+	<?php } ?>
+  </table>
+
+
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
    
     </div>
     <div id="menu3" class="tab-pane fade">

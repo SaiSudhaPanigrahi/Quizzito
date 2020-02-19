@@ -12,6 +12,7 @@ class users{
 	public $cat;
 	public $ques;
 	public $contest;
+	public $student_performance;
 	
 	public function __construct()
 	{
@@ -83,6 +84,22 @@ class users{
 		 $this->data[]=$row;
 	  }
 	  return $this->data;
+	  
+	 
+		
+	}
+	
+	
+	public function student_performance()
+	{
+	  $query=$this->conn->query("select * from tot_performance");
+	  $row=$query->fetch_array(MYSQLI_ASSOC); //how on boolean ?? what function is this ?
+	  
+	  if($query->num_rows>0)
+	  {
+		 $this->student_performance[]=$row;
+	  }
+	  return $this->student_performance;
 	  
 	 
 		

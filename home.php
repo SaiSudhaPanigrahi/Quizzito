@@ -3,14 +3,40 @@
 include("class/users.php");
 $email=$_SESSION['email'];
 //echo $email;
+
+//$_SESSION['no_quiz']=0;
+//$_SESSION['tot_per']=0;
 $profile=new users;
 $profile->users_profile($email);
 $profile->cat_show();
 //print_r($profile->data); 
 $name= $_SESSION['name'];
-$profile->contest_student();           //directly using the variable as it is returned !! 
+$profile->contest_student(); 
+$profile->get_quiz_info($email);
+
+/*$nq=$profile->quiz_info['total_quizs'];
+echo $nq;
+
+
+undefined index total_quizs is comming.. for loop is neccessary
+*/
+
+
+foreach($profile->quiz_info as $prof)
+
+{$nq=$prof['total_quizs'];
+$_SESSION['no_quiz']=$nq;
+echo $nq; 
+$tp=$prof['avg_marks'];
+$_SESSION['tot_per']=$tp;
+echo $tp;} 
+
+          //directly using the variable as it is returned !! 
                                      //without the return statement also it will work i think. Try and see later
 
+echo $_SESSION['email'];
+//echo $_SESSION[''];
+echo $_SESSION['no_quiz']
 //echo $name;
 ?>
 <!DOCTYPE html>
@@ -25,6 +51,59 @@ $profile->contest_student();           //directly using the variable as it is re
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body class="bod">
+
+
+<script> 
+
+          
+            function changeColor(color) { 
+			
+                document.body.style.backgroundImage='url("light_theme.jpg")';
+				
+            } 
+              
+            function gfg_Run() { 
+                changeColor('yellow');
+				<?php $_SESSION['theme']='1' ?>
+                
+            }          
+        </script> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <div class="container">
   <h2 class="hi">Welcome to quizzito <?php echo $name;?>! Take your online quiz now</h2>
@@ -41,7 +120,8 @@ $profile->contest_student();           //directly using the variable as it is re
 	<br>
 	<br>
 	<br>
-      
+     <?php if(isset($_GET['run_f']) && $_GET['run_f']=="success") {echo "<center><mark>YOUR FEEDBACK HAS BEEN NOTED!</mark></center>";}   ?>
+<br>	 
     <center><button type="button" class="btn btn-success" data-toggle="tab" href="#select">Start Quiz Now !</button></center>
 	
 	<br>
@@ -51,7 +131,7 @@ $profile->contest_student();           //directly using the variable as it is re
 	  <div class="col-sm-4">
       <div id="select" class="tab-pane fade">
 	  
-	  
+	 
 	 
 	  <form method="post" action="ques_show.php">
 	
@@ -74,8 +154,24 @@ $profile->contest_student();           //directly using the variable as it is re
 			  <br>
 			  <center><input type="submit" value="submit" class="btn btn-success"/></center>
 			  </form>
+			  
+			  
+
+		
+		
 	</div>
+	<br>
+	
+				  <center><button type="button" class="btn btn-primary" onclick = "gfg_Run()">  
+            Click here to change to light theme !
+        </button></center>
 	</div>
+	
+	
+	
+	
+	
+	
 	</div>
 	<div class="col-sm-4"></div>
     <div id="menu1" class="tab-pane fade">

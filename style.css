@@ -8,6 +8,16 @@
 
 }
 
+.bodyLight{
+
+  background-image: url('light_theme.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+
+
+}
+
 
 .hi {
   background-color: yellow;

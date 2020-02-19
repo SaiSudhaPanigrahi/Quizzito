@@ -55,7 +55,7 @@
 				</div>
 				<div class="form-group">
 				  <label for="pwd">Password:</label>
-				  <input type="password" class="form-control" name='p' id="pwd" placeholder="Enter password">
+				  <input type="password" class="form-control" name='p' id="pwd" placeholder="Enter password" pattern=".{8,}" title="length of password has to be atleast 8" required>
 				</div>
 				
 				
@@ -77,15 +77,15 @@
 				<form role="form" method="post" action="signup_sub.php" enctype="multipart/form-data">
 				<div class="form-group">
 				  <label for="name">Name:</label>
-				  <input type="text" class="form-control" name="n" id="name" placeholder="Enter name">
+				  <input type="text" class="form-control" name="n" id="name" placeholder="Enter name" required>
 				</div>
 				<div class="form-group">
 				  <label for="email">Email:</label>
-				  <input type="email" class="form-control" name="e" id="email" placeholder="Enter email">
+				  <input type="email" class="form-control" name="e" id="email" placeholder="Enter email" required>
 				</div>
 				<div class="form-group">
 				  <label for="pwd">Password:</label>
-				  <input type="password" class="form-control" name="p" id="pwd" placeholder="Enter password">
+				  <input type="password" class="form-control" name="p" id="pwd" placeholder="Enter password" pattern=".{8,}" title="length of password has to be atleast 8" required>
 				</div>
 				
 				<div class="form-group">
