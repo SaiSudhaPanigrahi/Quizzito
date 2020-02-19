@@ -1,18 +1,37 @@
 <?php
+
+error_reporting(E_ERROR | E_WARNING | E_PARSE); //for contest it was showing notices on line 137 because users class is always there and variables are not passed.
 include("class/users.php");
 $ans= new users;
 //print_r($_POST);
 $_SESSION['answer']=$_POST; //ohk lol
-print_r ($_SESSION['answer']);
+//print_r ($_SESSION['answer']);
 $answer=$ans->answer($_POST);
+//echo $_SESSION['theme']; //Only if i echo here it is working....maybe script is running before the php !!
 
 
-
-echo "hi";
+//echo "hi";
 $c_answer=$ans->correct_answer($_SESSION['answer']); //ohk lol
-print_r ($c_answer);
+//print_r ($c_answer);
 
 ?>
+
+
+<script> 
+
+         var v=<?php echo $_SESSION['theme']?>;     //IAM SO SMART
+		 
+          if(v=='1')
+			  
+			  {
+				  
+				  
+				  document.body.style.backgroundImage='url("light_theme.jpg")';
+				  
+				  
+			  }
+            
+    </script> 
 
 <!DOCTYPE HTML>
 <html lang="en-US">
@@ -78,51 +97,86 @@ print_r ($c_answer);
       </tr>
 
     </tbody>
-  </table></div>
+  </table>
+  
+  </div>
   <div  class ="col-sm-2"></div>
-</div>
+  </div>
 
 
 
+ 
+ 
  <div  class ="col-sm-2"></div>
 <div class="col-sm-8">
 	  <div class="panel panel-danger">
-	    <div class="panel-heading"><h4>DETAILED PERFORMANCE REPORT !</h4></div>
+	    <div class="panel-heading"><center><h4 class="hi">DETAILED PERFORMANCE REPORT !</h4></center></div>
 		<div class="panel-body">
 		
-		<?php if(isset($_GET['run']) && $_GET['run']=="success") {echo "<mark>YOUR FEEDBACK WAS RECORDED !</mark>";}   ?>
+		
 				<form role="form" method="post" action="correct_ans.php" ">
 				<div class="form-group">
 				  
 				</div>
 				
+		
+		
+		
+				
 				<center><button type="submit" class="btn btn-success">Answers</button></center>
 			  </form>
 	  </div>
-	  </div>
-	</div>
-	<div  class ="col-sm-2"></div>
+</div>
+	
+<div  class ="col-sm-2"></div>
 
 
- <div  class ="col-sm-2"></div>
+	
+	
+
+
+
+
 <div class="col-sm-8">
 	  <div class="panel panel-danger">
-	    <div class="panel-heading"><h4>FEEDBACK FORM</h4></div>
+	    <div class="panel-heading"><center><h4 class="hi">FEEDBACK FORM</h4></center></div>
 		<div class="panel-body">
 		
 		<?php if(isset($_GET['run']) && $_GET['run']=="success") {echo "<mark>YOUR FEEDBACK WAS RECORDED !</mark>";}   ?>
-				<form role="form" method="post" action="signup_sub.php" enctype="multipart/form-data">
+				<form role="form" method="post" action="feedback.php" enctype="multipart/form-data">
 				<div class="form-group">
 				  
-				<center><textarea rows="6" cols="50" name="comment" form="usrform">Please give us a feedback of your experience !...</textarea></center>
+				<center><textarea rows="6" cols="50" name="comment">Please give us a feedback of your experience !...</textarea></center>
 				</div>
+				
+				
+				
+				<center><h4 class="hi"><b>Give us five stars if you enjoy our application !</b></h4>
+				<br>
+				
+				<div>
+				<input type="radio" value="1" name="rating" />
+				<input type="radio" value="2" name="rating" />
+				<input type="radio" value="3" name="rating" />
+				<input type="radio" value="4" name="rating" />
+				<input type="radio" value="5" name="rating" />
+				<br>
+				<p>1  2  3  4  5</p>
+				
+				
+				</div>
+				</center>
 				
 				<center><button type="submit" class="btn btn-success">Submit</button></center>
 			  </form>
 	  </div>
 	  </div>
 	</div>
-	<div  class ="col-sm-2"></div>
+<div class ="col-sm-2"></div>
+
+
+
+
  
  
  
