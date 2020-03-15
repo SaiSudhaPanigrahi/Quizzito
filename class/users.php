@@ -17,6 +17,11 @@ class users{
 	//public $cdata;
 	public $answer;
 	public $quiz_info;
+	public $performance;
+	public $strength;
+	public $weakness;
+	public $stars;
+	public $avg_score_per_sub;
 	
 	public function __construct()
 	{
@@ -104,7 +109,7 @@ class users{
 	}
 	
 	public function ques_show( $ques)
-	{    echo $ques;
+	{    //echo $ques;
 		
 		$query=$this->conn->query("select * from questions where cat_id='$ques'");
 	  while($row=$query->fetch_array(MYSQLI_ASSOC)) //how on boolean ?? what function is this ?
@@ -114,6 +119,45 @@ class users{
 		 $this->ques[]=$row;
 	  }
 	  return $this->ques;
+	  
+		
+	}
+	
+	public function strength_weakness( $email)
+	{    //echo $ques;
+		
+		$query=$this->conn->query("select distinct(cat_id) from track_performance where email='$email' and percentage >= 70");
+	  while($row=$query->fetch_array(MYSQLI_ASSOC)) //how on boolean ?? what function is this ?
+	  
+	 
+	  {
+		 $this->strength[]=$row;
+	  }
+	  //return $this->ques;
+	  
+	  $query=$this->conn->query("select distinct(cat_id) from track_performance where email='$email' and percentage <= 60");
+	  while($row=$query->fetch_array(MYSQLI_ASSOC)) //how on boolean ?? what function is this ?
+	  
+	 
+	  {
+		 $this->weakness[]=$row;
+	  }
+	  
+	  $query=$this->conn->query("select count(*) from track_performance where email='$email' and stars_gained=1");
+	  while($row=$query->fetch_array(MYSQLI_ASSOC)) //how on boolean ?? what function is this ?
+	  
+	 
+	  {
+		 $this->stars[]=$row;
+	  }
+	  //average score per subject
+	  $query=$this->conn->query("select cat_id, avg(percentage) from track_performance where email='$email' group by cat_id ");
+	  while($row=$query->fetch_array(MYSQLI_ASSOC)) //how on boolean ?? what function is this ?
+	  
+	 
+	  {
+		 $this->avg_score_per_sub[]=$row;
+	  }
 	  
 		
 	}
@@ -164,10 +208,10 @@ class users{
       $array['Wrong Answers']=$wrong;
 	  $array['per']=$per;
 	  
-	  echo $_SESSION['tot_per'] ." ";
-	  echo ($_SESSION['no_quiz']-1) ." ";
-	  echo $per ." ";
-	  echo $_SESSION['no_quiz'] ." ";
+	  //echo $_SESSION['tot_per'] ." ";
+	  //echo ($_SESSION['no_quiz']-1) ." ";
+	  //echo $per ." ";
+	  //echo $_SESSION['no_quiz'] ." ";
 	  $_SESSION['tot_per']=(($_SESSION['tot_per']*($_SESSION['no_quiz']-1))+$per)/$_SESSION['no_quiz'];
 	  
 	  //$newper=
@@ -181,32 +225,51 @@ class users{
 	  
 	  if($this->conn->query($q))
 	  {
-		echo "updated tot questions !";  
+		//echo "updated tot questions !";  
 	  }
 	  
 	  else{
 		  
-		  echo "NOT updated!";  
+		  //echo "NOT updated!";  
 		  
 	  }
 	  //updation success
 	  $q="update tot_performance set avg_marks='$p' where email='$email'";
 	  if($this->conn->query($q))
 	  {
-		echo "updated avg marks !";  
+		//echo "updated avg marks !";  
 	  }
 	  
 	  else{
 		  
-		  echo "NOT updated!";  
+		  //echo "NOT updated!";  
 		  
 	  }
 	  
 	  
-	  echo $tot ."new percent is"  ;
-	  echo $p;
+	  //echo $tot ."new percent is"  ;
+	  
+	  //echo $p;
 	  echo $email;
-	
+	 $percent=$per;
+	 $stars=0;
+	 if($percent>=70)
+	 {
+		 $stars=1;
+		 $_SESSION['no_stars']=$_SESSION['no_stars']+1;
+	 }
+	$cat_id=$_SESSION['cat'];
+	$q="insert into track_performance values('','$email','$cat_id','$percent','$stars')";
+	if($this->conn->query($q))
+	  {
+		//echo "inserted  in track performance !";  
+	  }
+	  
+	  else{
+		  
+		  //echo "NOT updated! track performance";  
+		  
+	  }
 	  
 	  
 	  
@@ -231,10 +294,30 @@ class users{
 		 $this->quiz_info[]=$row;
 	  }
 	  
-	  print_r($this->quiz_info);
+	  //print_r($this->quiz_info);
 	  return $this->quiz_info;
 	  
 	 
+		
+	}
+	
+	public function get_performance($email)
+	{
+		
+		$query=$this->conn->query("select * from track_performance where email='$email'");
+		 while($row=$query->fetch_array(MYSQLI_ASSOC))//how on boolean ?? what function is this ?
+	  
+	  {
+	  
+		 $this->performance[]=$row;
+		 
+	  }
+	  
+	  
+	  //print_r($this->performance);
+	  return $this->performance;
+		
+	  
 		
 	}
 	

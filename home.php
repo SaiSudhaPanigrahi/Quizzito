@@ -1,5 +1,6 @@
 <!--cant understand the bootstrap now..sorry -->
 <?php
+error_reporting(E_ERROR | E_PARSE);
 include("class/users.php");
 $email=$_SESSION['email'];
 //echo $email;
@@ -13,6 +14,10 @@ $profile->cat_show();
 $name= $_SESSION['name'];
 $profile->contest_student(); 
 $profile->get_quiz_info($email);
+$profile->get_performance($email);
+$profile->strength_weakness($email);
+
+
 
 /*$nq=$profile->quiz_info['total_quizs'];
 echo $nq;
@@ -111,7 +116,8 @@ echo $_SESSION['no_quiz']
     <li class="active"><a data-toggle="tab" href="#home" class="hi">HOME</a></li>
     <li><a data-toggle="tab" href="#menu1" class="hi">PROFILE</a></li>
     <li><a data-toggle="tab" href="#menu2" class="hi">CONTEST</a></li> <!--wts dis-->
-    <li style="float:right"><a data-toggle="tab" href="#menu3 " class="hi">LOGOUT</a></li>
+	<li><a data-toggle="tab" href="#menu3" class="hi">TRACK PERFORMANCE</a></li>
+    <li style="float:right"><a data-toggle="tab" href="#menu4 " class="hi">LOGOUT</a></li>
   </ul>
 
   <div class="tab-content">
@@ -189,6 +195,7 @@ echo $_SESSION['no_quiz']
     </thead>
     <tbody>
 	<?php
+	
 	foreach($profile->data as $prof)
 	{ ?>
 	
@@ -252,7 +259,209 @@ echo $_SESSION['no_quiz']
 	
 	
 	
-	<div id="menu2" class="tab-pane fade">
+	<div id="menu3" class="tab-pane fade">
+      
+	  
+	  
+    	<div class="col-sm-12">
+	
+	<h3 style="color:black"><b>Your Performance is as follows:</b></h3>
+	
+	</div>
+	
+	<table class="table" >
+    <thead>
+      <tr class="danger">
+        <th>QUIZ ID</th>
+        <th>EMAIL</th>
+		<th>CATEGORY ID</th>
+		<th>PERCENT</th>
+		<th>STARS GAINED</th>
+		
+		
+		
+      </tr>
+    </thead>
+    <tbody>
+	
+	
+
+	
+	<?php
+	
+	//IF YOU WANT TO KEEP TRACK OF SOMETHING, MAKE TABLES IN DATA BASE !
+	
+	foreach($profile->performance as $contest)
+	{ ?>
+	
+	<tr class="danger">
+	
+	<form method="post" action="contest_show.php">
+	  <td><?php echo $contest['id'];?></td>
+	  <td><?php echo $contest['email'];?></td>
+	  <td><?php echo $contest['cat_id'];?></td>
+	  <td><?php echo $contest['percentage'];?></td>
+	  <td><?php echo $contest['stars_gained'];?></td>
+	  
+	  </form>
+	  
+      </tr>
+
+    </tbody>
+	
+
+	
+	
+	
+	<?php } ?>
+  </table>
+  
+  	    <table class="table" >
+    <thead>
+      <tr class="danger">
+        <th>AREAS OF STRENGTH (category id)</th>
+	</thead>
+    <tbody>
+		<?php
+		foreach($profile->strength as $prof)
+	{ ?>
+	
+	<tr class="danger">
+	  <td><?php echo $prof['cat_id'];?></td>
+	  
+	 </tr>
+
+    </tbody>
+	
+
+	
+	
+	
+	<?php } ?>
+	  </table>
+	  
+	  
+	  <table class="table" >
+    <thead>
+      <tr class="danger">
+        <th>AREAS OF WEAKNESS (category id)</th>
+	</thead>
+    <tbody>
+		<?php
+		foreach($profile->weakness as $prof)
+	{ ?>
+	
+	<tr class="danger">
+	  <td><?php echo $prof['cat_id'];?></td>
+	  
+	 </tr>
+
+    </tbody>
+	
+
+	
+	
+	
+	<?php } ?>
+	  </table>
+	  
+	  
+	  <table class="table" >
+    <thead>
+      <tr class="danger">
+        <th>TOTAL NUMBER OF STARS</th>
+	</thead>
+    <tbody>
+		<?php
+		foreach($profile->stars as $prof)
+	{ ?>
+	
+	<tr class="danger">
+	  <td><?php echo $prof['count(*)'];?></td>
+	  
+	 </tr>
+
+    </tbody>
+	
+
+	
+	
+	
+	<?php } ?>
+	  </table>
+	  
+	  <table class="table" >
+    <thead>
+      <tr class="danger">
+        <th>AVERAGE SCORE PER SUBJECT</th>
+		<th>SUBJECT CODE</th>
+	</thead>
+    <tbody>
+		<?php
+		foreach($profile->avg_score_per_sub as $prof)
+	{ ?>
+	
+	<tr class="danger">
+	  <td><?php echo $prof['avg(percentage)'];?></td>
+	  <td><?php echo $prof['cat_id'];?></td>
+	  
+	 </tr>
+
+    </tbody>
+	
+
+	
+	
+	
+	<?php } ?>
+	  </table>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+ 
+    <tbody>
+	<?php
+	
+	foreach($profile->data as $prof)
+	{ ?>
+	
+	<tr class="danger">
+	  
+	  <td><img src="img/<?php echo $prof['img'];  ?>" alt="" width="225px" height="250px" /></td>
+	  
+	  
+	  
+	  
+      </tr>
+
+    </tbody>
+	
+
+	
+	
+	
+	<?php } ?>
+  </table>
+	  
+  
+  
+   
+    </div>
+	
+	
+		<div id="menu2" class="tab-pane fade">
       
 	  
 	  
@@ -315,7 +524,6 @@ echo $_SESSION['no_quiz']
   
    
     </div>
-	
 	
 	
 	
