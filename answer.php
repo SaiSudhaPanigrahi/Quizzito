@@ -101,13 +101,39 @@ $c_answer=$ans->correct_answer($_SESSION['answer']); //ohk lol
   
   </div>
   <div  class ="col-sm-2"></div>
+  
   </div>
+  
+   <div class="container">
+  <div  class ="col-sm-2"></div>
+  <div  class ="col-sm-8">
+  
+  <?php 
+     if($answer['per']>= 90)
+	 {
+		 echo "<center><mark>CONGRATS YOU ARE AN EXPERT IN THIS AREA! </mark></center>";
+	 }
+	 
+	 else if ($answer['per']>= 70 and $answer['per']< 90 )
+	 {
+		 echo "<mark>YOU DID GREAT, PRACTICE A BIT MORE TO UPSCALE YOUR SKILLS !</mark>";
+	 }
+	 
+	 else{
+		 
+		 echo "<mark>REVISE YOUR CONCEPTS TO SCORE EVEN BETTAR !</mark>";
+	 }
 
 
+  ?>
+  </div>
+    <div  class ="col-sm-2"></div>
+	
+	</div>
+  
+  
 
- 
- 
- <div  class ="col-sm-2"></div>
+<div  class ="col-sm-2"></div>
 <div class="col-sm-8">
 	  <div class="panel panel-danger">
 	    <div class="panel-heading"><center><h4 class="hi">DETAILED PERFORMANCE REPORT !</h4></center></div>
@@ -173,7 +199,7 @@ $c_answer=$ans->correct_answer($_SESSION['answer']); //ohk lol
 	  </div>
 	</div>
 <div class ="col-sm-2"></div>
-
+</div>
 
 
 
