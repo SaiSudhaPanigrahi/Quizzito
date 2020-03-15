@@ -41,10 +41,21 @@
 		<div class="panel-body">
 		
 		<?php 
+		    require_once "config.php";
+
+	if (isset($_SESSION['access_token'])) {
+		header('Location: index.php');
+		exit();
+	}
+
+	$loginURL = $gClient->createAuthUrl();
+	
+	
 		if(isset($_GET['run']) && $_GET['run']=="failed")
 		{
 			echo "<mark>YOUR EMAIL OR PASSWORD IS NOT CORRECT !</mark>";
 		}
+		 if(isset($_GET['run']) && $_GET['run']=="success_d") {echo "<mark>YOUR ACCOUNT HAS BEEN DELETED!</mark>";}  	 
 
 
 		?>
@@ -61,6 +72,7 @@
 				
 				
 				<button type="submit" class="btn btn-default">Submit</button>
+				<input type="button" onclick="window.location = '<?php echo $loginURL ?>';" value="Log In With Google" class="btn btn-danger">
 			  </form>
 	  </div>
 	  </div>
@@ -73,7 +85,15 @@
 	    <div class="panel-heading"><h4>SIGN UP FORM</h4></div>
 		<div class="panel-body">
 		
-		<?php if(isset($_GET['run']) && $_GET['run']=="success") {echo "<mark>YOUR REGISTRATION WAS SUCCESSFUL !</mark>";}   ?>
+		<?php if(isset($_GET['run']) && $_GET['run']=="success")
+			{echo "<mark>YOUR REGISTRATION WAS SUCCESSFUL !</mark>";}
+		
+		else if(isset($_GET['run']) && $_GET['run']=="exists")
+		{
+			echo "<mark>USER ALREADY EXISTS !</mark>";
+		}
+
+		?>
 				<form role="form" method="post" action="signup_sub.php" enctype="multipart/form-data">
 				<div class="form-group">
 				  <label for="name">Name:</label>

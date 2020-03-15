@@ -16,6 +16,7 @@ $profile->contest_student();
 $profile->get_quiz_info($email);
 $profile->get_performance($email);
 $profile->strength_weakness($email);
+//$profile->cat_show(); no need..already there 
 
 
 
@@ -74,42 +75,6 @@ echo $_SESSION['no_quiz']
             }          
         </script> 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="container">
   <h2 class="hi">Welcome to quizzito <?php echo $name;?>! Take your online quiz now</h2>
   <ul class="nav nav-tabs">
@@ -117,7 +82,7 @@ echo $_SESSION['no_quiz']
     <li><a data-toggle="tab" href="#menu1" class="hi">PROFILE</a></li>
     <li><a data-toggle="tab" href="#menu2" class="hi">CONTEST</a></li> <!--wts dis-->
 	<li><a data-toggle="tab" href="#menu3" class="hi">TRACK PERFORMANCE</a></li>
-    <li style="float:right"><a data-toggle="tab" href="#menu4 " class="hi">LOGOUT</a></li>
+    <li style="float:right"><a href="index.php" class="hi">LOGOUT</a></li><!--lol genius-->
   </ul>
 
   <div class="tab-content">
@@ -220,7 +185,7 @@ echo $_SESSION['no_quiz']
   </table>
 
 
-<?php if(isset($_GET['run']) && $_GET['run']=="success_pic") {echo "<mark>YOUR PASSWORD HAS BEEN RESET!</mark>";}   ?>	    
+<?php if(isset($_GET['run']) && $_GET['run']=="success_pic") {echo "<mark>YOUR PROFILE PICTURE HAS BEEN RESET!</mark>";}   ?>	    
   <div class="col-sm-6">
   <form role="form" method="post" action="change_pic2.php" enctype="multipart/form-data">
 
@@ -246,6 +211,18 @@ echo $_SESSION['no_quiz']
 	  </form>
 	</div>  
   
+  <?php if(isset($_GET['run']) && $_GET['run']=="success_delete") {echo "<mark>YOUR ACCOUNT HAS BEEN DELETED!</mark>";}   ?>	  
+<div class="col-sm-6">
+<form role="form" method="post" action="delete.php" >
+								
+				<div class="form-group">
+				  <label for="pwd" style="color:white">Delete Account ? (Type 'yes' below)</label>
+				  <input type="text" class="form-control" name="d" placeholder="Enter Response">
+				</div>
+	  <center><input type="submit" value="delete account" class="btn btn-danger"/></center>
+	  
+	  </form>
+	</div>  
   
    
     </div>
@@ -265,9 +242,66 @@ echo $_SESSION['no_quiz']
 	  
     	<div class="col-sm-12">
 	
-	<h3 style="color:black"><b>Your Performance is as follows:</b></h3>
+	<h3 style="color:black"><b>Category number information:</b></h3>
 	
 	</div>
+	
+	
+	<table class="table" >
+    <thead>
+      <tr class="danger">
+        <th>CATEGORY ID</th>
+        <th>CATEGORY NAME</th>
+      </tr>
+    </thead>
+    <tbody>
+	
+	
+
+	
+	<?php
+	/* $cat[]=$row; is not working here for some reason
+	$cat[];
+	
+	//IF YOU WANT TO KEEP TRACK OF SOMETHING, MAKE TABLES IN DATA BASE !
+	$query=$this->conn->query("select * from category");
+	  while($row=$query->fetch_array(MYSQLI_ASSOC)) //how on boolean ?? what function is this ?
+	  {
+		 $cat[]=$row;
+		 //echo "hi";
+	  }
+	  
+	*/
+	foreach($profile->cat as $contest)
+	{ ?>
+	
+	<tr class="danger">
+	
+	<form method="post" action="contest_show.php">
+	  <td><?php echo $contest['id'];?></td>
+	  <td><?php echo $contest['cat_name'];?></td>
+
+	 	  </form>
+	  
+      </tr>
+
+    </tbody>
+	
+
+	
+	
+	
+	<?php } ?>
+  </table>
+  
+
+	
+	<h3 style="color:black"><b>Track your performance:</b></h3>
+	
+	
+  
+  
+  
 	
 	<table class="table" >
     <thead>
@@ -529,8 +563,12 @@ echo $_SESSION['no_quiz']
 	
 	
 	
-    <div id="menu2" class="tab-pane fade">
-      <h3>Menu 2</h3>
+    <div id="menu4" class="tab-pane fade">
+	
+      <?php
+	  {$profile->url("index.php");
+	  }	  
+?>
    
     </div>
     <div id="menu3" class="tab-pane fade">

@@ -24,6 +24,12 @@ if($register->signup($query))
 	$register->url("index.php?run=success"); //what ??
 }
 
+else{
+	
+	$register->url("index.php?run=exists");
+	
+}
+
 
 
 

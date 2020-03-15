@@ -37,8 +37,18 @@ class users{
 	
 	public function signup($data)
 	{
+		$query=$this->conn->query("select email from signup where email='$email'");
+		$row=$query->fetch_array(MYSQLI_ASSOC);
+		if($query->num_rows>0)
+	  {
+		
+		  return false;
+	  }
+	  else{
+		
 		$this->conn->query($data);
 		return true;
+	  }
 	}
 	
 	public function url($url)
