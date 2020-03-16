@@ -348,6 +348,8 @@ echo $_SESSION['no_quiz']
 	
 	
 	<?php } ?>
+	
+	
   </table>
   
   	    <table class="table" >
@@ -416,6 +418,15 @@ echo $_SESSION['no_quiz']
 	 </tr>
 
     </tbody>
+	
+	<?php 
+     if($prof['count(*)']>= 5)
+	 {
+		 echo "<center><mark> CONGRATS ,YOU ARE PROMOTED TO ADMIN. YOU CAN LOGIN NOW AS AN ADMIN! </mark></center>";
+	 }
+	 
+	 
+  ?>
 	
 
 	
